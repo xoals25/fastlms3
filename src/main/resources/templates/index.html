@@ -115,7 +115,6 @@
     let index = 0;
 
     function showImage(n) {
-        console.log(n);
         if (n < 0) {
             index = images.length - 1;
         } else if (n >= images.length) {
@@ -127,7 +126,6 @@
             images[i].style.display = "none";
             dots[i].classList.remove('active');
         }
-        console.log(images[index]);
         images[index].style.display = "block";
         dots[index].classList.add('active');
 
@@ -137,7 +135,6 @@
 
     for (let i = 0; i < dots.length; i++) {
         dots[i].addEventListener("click", () => {
-            console.log(dots[i].id, "::::: 아이디");
             showImage(i);
         });
     }
