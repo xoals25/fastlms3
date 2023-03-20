@@ -28,6 +28,11 @@
             color: #000;
             cursor: pointer;
         }
+
+        img {
+            width: 100px;
+            height: 100px;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -80,7 +85,8 @@
             <tr>
                 <th>배너 파일</th>
                 <td>
-                    <input type="file" name="file"/>
+                    <input type="file" id="imgInput" name="file" onchange="previewImage();"/>
+                    <img id="preview" th:if="${bannerDto.getUrlFilename() != null}" th:src="${bannerDto.getUrlFilename()}"/>
                 </td>
             </tr>
 
@@ -145,4 +151,19 @@
     </form>
 </div>
 </body>
+<script>
+    function previewImage() {
+        const preview = document.querySelector('#preview');
+        const file = document.querySelector('#imgInput').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 </html>
