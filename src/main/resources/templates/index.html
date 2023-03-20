@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            width: 100%;
+        }
+        html {
+            width: 100%;
+        }
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: auto;
+        }
+        .slideshow-images {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .slideshow-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .slideshow-images i {
+            color: black;
+        }
+        .fa {
+            color: black;
+        }
+        .prev,
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            padding: 16px;
+            color: white;
+            font-size: 20px;
+            user-select: none;
+        }
+        .prev {
+            left: 0;
+        }
+        .next {
+            right: 0;
+        }
+    </style>
+
+
+</head>
+<body>
+    <h1>메인 페이지 </h1>
+    <div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+
+    <div class="slideshow-container">
+        <div class="slideshow-images">
+            <div th:each="x : ${bannerList}">
+                <a class="image-box" th:if="${#strings.equals(x.getOpenTarget(), 'NEW')}"
+                   th:target="_blank"
+                   th:href="${x.getClickUrl()}">
+                    <img th:if="${#strings.equals(x.getOpenTarget(), 'NEW')}"
+                         th:target="_blank"
+                         th:href="${x.getClickUrl()}"
+                         th:src="${x.getUrlFilename()}"
+                         th:alt="${x.getReplaceText()}">
+                </a>
+
+                <a class="image-box" th:if="${#strings.equals(x.getOpenTarget(), 'PRESENT')}"
+                   th:href="${x.getClickUrl()}">
+                    <img th:src="${x.getUrlFilename()}"
+                         th:alt="${x.getReplaceText()}">
+                </a>
+            </div>
+
+            <a class="prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+            <a class="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+
+</body>
+<script>
+    const images = document.querySelectorAll(".image-box");
+    let index = 0;
+
+    function showImage(n) {
+        console.log(n);
+        if (n < 0) {
+            index = images.length - 1;
+        } else if (n >= images.length) {
+            index = 0;
+        } else {
+            index = n;
+        }
+        for (let i = 0; i < images.length; i++) {
+            images[i].style.display = "none";
+        }
+        console.log(images[index]);
+        images[index].style.display = "block";
+    }
+
+    showImage(index);
+
+    document.querySelector(".prev").addEventListener("click", () => {
+        showImage(index - 1);
+    });
+
+    document.querySelector(".next").addEventListener("click", () => {
+        showImage(index + 1);
+    });
+</script>
+</html>
